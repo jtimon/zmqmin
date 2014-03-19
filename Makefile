@@ -96,6 +96,10 @@ maintainer-clean: distclean
 dist:
 	"${PYENV}"/bin/python setup.py sdist
 
+.PHONY: register
+register:
+	"${PYENV}"/bin/python setup.py register
+
 # ===--------------------------------------------------------------------===
 
 ${CACHE}/pyenv/virtualenv-1.10.1.tar.gz:
