@@ -2,27 +2,14 @@
 import zmq
 from  multiprocessing import Process
 
-from .messenger import Messenger
+from .process import Process
 
-class Server(Messenger, Process):
+class Server(Process):
 
-    def __init__(self, port, url='tcp://127.0.0.1', 
-                 single=True, 
-                 worker_id='Server', 
-                 json=True, 
-                 *args, **kwargs):
+    def _init_socket(self):
+        self.socket = self.context.socket(zmq.REP)
 
-        super(Server, self).__init__(
-            port, url, single, worker_id, json, 
-            *args, **kwargs)
-
-    def _init_server(self):
-        context = zmq.Context()
-        self.socket = context.socket(zmq.REP)
-        self._connect_socket()
-
-    def run(self):
-        self._init_server()
+    def _loop(self):
         while True:
             request = self.receive_message()
             response = self.calculate_response(request)

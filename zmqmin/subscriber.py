@@ -12,10 +12,13 @@ class Subscriber(Messenger):
                  json=True, topic='', 
                  *args, **kwargs):
 
+        self.topic = topic
+
         super(Subscriber, self).__init__(
-            port, url, single, worker_id, json, 
+            port=port, url=url, context=context, 
+            single=single, worker_id=worker_id, json=json, 
             *args, **kwargs)
 
-        self.socket = context.socket(zmq.SUB)
-        self._connect_socket()
-        self.socket.setsockopt(zmq.SUBSCRIBE, topic)
+    def _init_socket(self):
+        self.socket = self.context.socket(zmq.SUB)
+        self.socket.setsockopt(zmq.SUBSCRIBE, self.topic)

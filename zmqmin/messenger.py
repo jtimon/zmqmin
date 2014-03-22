@@ -3,7 +3,10 @@ import zmq
 
 class Messenger(object):
 
-    def __init__(self, port, url, single, worker_id, json, 
+    def __init__(self, port, url='tcp://127.0.0.1', 
+                 context=zmq.Context(), single=False,
+                 worker_id='Messenger', 
+                 json=True, 
                  *args, **kwargs):
 
         self.port = port
@@ -11,10 +14,17 @@ class Messenger(object):
         self.single = single
         self.worker_id = worker_id
         self.json = json
+        self.context = context
+
+        self._connect_socket()
 
         super(Messenger, self).__init__(*args, **kwargs)
 
+    def _init_socket(self):
+        raise NotImplementedError
+
     def _connect_socket(self):
+        self._init_socket()
         full_url = '%s:%s' % (self.url, self.port)
         if self.single:
             self.socket.bind(full_url)
