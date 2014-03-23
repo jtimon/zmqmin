@@ -1,6 +1,7 @@
 
 from zmq import Context, ZMQError
 
+from .process import Process
 from .client import Client
 from .server import Server
 from .publisher import Publisher
