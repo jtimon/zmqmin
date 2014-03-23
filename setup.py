@@ -8,8 +8,8 @@ requires = filter(lambda r:'libs/' not in r,
     open(os.path.join(here, 'requirements.txt')).read().split())
 packages = filter(lambda p:not p.startswith('xunit'), find_packages())
 
-from zmqmin import get_version
-version = get_version()
+version = requires[0].replace('pyzmq==', '') + '.0.1'
+
 setup(**{
     'name': 'zmqmin',
     'version': version,
@@ -18,7 +18,7 @@ setup(**{
     'author':       'Jorge Timon',
     'author_email': 'jtimon@monetize.io',
     'url':          'http://www.github.com/jtimon/zmqmin/',
-    'download_url': 'http://pypi.python.org/packages/source/p/zmqmin/zmqmin-%s.tar.gz' % version.replace('.', '-'),
+    'download_url': 'http://pypi.python.org/packages/source/p/zmqmin/zmqmin-%s.tar.gz' % version,
     'packages': packages,
     'classifiers': [
         'Development Status :: 3 - Alpha',
