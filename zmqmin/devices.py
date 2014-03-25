@@ -24,28 +24,17 @@ class Device(Process):
         raise NotImplementedError
 
     def run(self):
-        try:
-            self.context = zmq.Context()
+        self.context = zmq.Context()
 
-            self._create_frontend()
-            self._create_backend()
-            print "%s connecting %s:%s to %s:%s" % (
-                self.__class__.__name__, 
-                self.front_url, 
-                self.frontend_port, 
-                self.back_url, 
-                self.backend_port)
-            self._connect()
-
-        except Exception, e:
-            print e
-            print "bringing down zmq device"
-
-        finally:
-            pass
-            self.frontend.close()
-            self.backend.close()
-            self.context.term()
+        self._create_frontend()
+        self._create_backend()
+        print "%s connecting %s:%s to %s:%s" % (
+            self.__class__.__name__, 
+            self.front_url, 
+            self.frontend_port, 
+            self.back_url, 
+            self.backend_port)
+        self._connect()
     
 class Forwarder(Device):
 
